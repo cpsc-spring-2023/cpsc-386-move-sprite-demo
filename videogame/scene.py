@@ -167,6 +167,7 @@ class MoveScene(PressAnyKeyToExitScene):
             super().process_event(event)
     
     def update_scene(self):
+        USEAPI = True
         super().update_scene()
         if self._target_position:
             for c in self._circles:

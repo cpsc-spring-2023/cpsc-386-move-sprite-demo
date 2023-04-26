@@ -205,11 +205,11 @@ class CircleSpriteSheet(CircleSprite):
         assert speed <= CircleSprite.max_speed
         assert speed >= CircleSprite.min_speed
         self._speed = speed
-        self._radius = 5
+        self._radius = 40
 
     def update(self):
         self._elapsed_time += self._scene.delta_time
-        if self._elapsed_time > 75:
+        if self._elapsed_time > 80:
             self.image = next(self._image_pool)
             self._elapsed_time = 0
         self.rect.center = self._position
