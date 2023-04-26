@@ -18,7 +18,7 @@ import os
 import pygame
 import rgbcolors
 from random import randint, uniform
-from npc import CircleSprite
+from npc import Circle, CircleSprite, CircleSpriteSheet
 import assets
 
 # If you're interested in using abstract base classes, feel free to rewrite
@@ -100,20 +100,24 @@ class PressAnyKeyToExitScene(Scene):
 
 
 class MoveScene(PressAnyKeyToExitScene):
+    spriteson = True
     def __init__(self, screen):
         super().__init__(screen, rgbcolors.black, None)
         self._target_position = None
         self._delta_time = 0
         self._circles = []
         self.make_circles()
-        self._render_updates = pygame.sprite.RenderUpdates(self._circles)
-        CircleSprite.containers = self._render_updates
+        if MoveScene.spriteson:
+            self._render_updates = pygame.sprite.RenderUpdates(self._circles)
+            CircleSprite.containers = self._render_updates
+        else:
+            self._render_updates = None
         self._sucking_sound = pygame.mixer.Sound(assets.get('suck3'))
         self._explosion_sound = pygame.mixer.Sound(assets.get('explosion'))
 
     def make_circles(self):
-        num_circles = 10
-        circle_radius = 96
+        num_circles = 50
+        circle_radius = 5
         buffer_between = 3
         (width, height) = self._screen.get_size()
         for i in range(num_circles):
@@ -125,7 +129,8 @@ class MoveScene(PressAnyKeyToExitScene):
 
             speed = uniform(CircleSprite.min_speed, CircleSprite.max_speed)
             # c = Circle(position, speed, circle_radius, rgbcolors.random_color(), i+1)
-            c = CircleSprite(position, speed, i+1)
+            # c = CircleSprite(position, speed, i+1)
+            c = CircleSpriteSheet(position, speed, i+1, self)
             self._circles.append(c)
     
     @property
@@ -151,6 +156,12 @@ class MoveScene(PressAnyKeyToExitScene):
             self._target_position = None
             self._circles = []
             self.make_circles()
+            if True:
+                self._render_updates = pygame.sprite.RenderUpdates(self._circles)
+                CircleSprite.containers = self._render_updates
+            else:
+                self._render_updates = None
+
             print('done.')
         else:
             super().process_event(event)
@@ -180,12 +191,14 @@ class MoveScene(PressAnyKeyToExitScene):
 
     def draw(self):
         super().draw()
-        # for c in self._circles:
-        #     c.draw(self._screen)
+        if not self._render_updates:
+            for c in self._circles:
+                c.draw(self._screen)
 
     def render_updates(self):
-        super().render_updates()
-        # if self._render_updates:
-        self._render_updates.clear(self._screen, self._background)
-        self._render_updates.update()
-        dirty = self._render_updates.draw(self._screen)
+        if self._render_updates:
+            super().render_updates()
+            # if self._render_updates:
+            self._render_updates.clear(self._screen, self._background)
+            self._render_updates.update()
+            dirty = self._render_updates.draw(self._screen)

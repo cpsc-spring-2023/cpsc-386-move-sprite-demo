@@ -11,7 +11,11 @@ asset_dict = {
   'suck2': 'food_drink_straw_suck_air_dregs_soda.mp3',
   'suck3': 'zapsplat_foley_balloon_pump_in_water_single_suck_hiss_gurgle_46237.mp3',
   'explosion': 'jessey_drake_oldschool_DEATH_EXPLOSION_2_video_retro_game_chip_set_8BIT_XPO_JD.mp3',
-  'circleimage': 'dot.png'
+  'circleimage': 'dot.png',
+  'circlesheet1': 'ImpactMetal5LtBlue.png',
+  'circlesheet2': 'ImpactMetal5DkBlue.png',
+  'circlesheet3': 'ImpactMetal5Green.png',
+  'circlesheet4': 'ImpactMetal5Dark.png',
 }
 
 def get(key):
