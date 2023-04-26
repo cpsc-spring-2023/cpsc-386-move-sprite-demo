@@ -194,6 +194,7 @@ class CircleSpriteSheet(CircleSprite):
         super().__init__(position, speed, name)
         self._scene = scene
         self._elapsed_time = 0
+        self._pulse_time = randint(50, 140)
         n = randint(1, 4)
         sheet_name = f'circlesheet{n}'
         self.images = load_sprite_sheet(assets.get(sheet_name), 192, 192, 5, -1)
@@ -209,7 +210,7 @@ class CircleSpriteSheet(CircleSprite):
 
     def update(self):
         self._elapsed_time += self._scene.delta_time
-        if self._elapsed_time > 80:
+        if self._elapsed_time > self._pulse_time:
             self.image = next(self._image_pool)
             self._elapsed_time = 0
         self.rect.center = self._position
