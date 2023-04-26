@@ -156,7 +156,7 @@ class MoveScene(PressAnyKeyToExitScene):
             self._target_position = None
             self._circles = []
             self.make_circles()
-            if True:
+            if MoveScene.spriteson:
                 self._render_updates = pygame.sprite.RenderUpdates(self._circles)
                 CircleSprite.containers = self._render_updates
             else:
@@ -170,7 +170,7 @@ class MoveScene(PressAnyKeyToExitScene):
         super().update_scene()
         if self._target_position:
             for c in self._circles:
-                if True:
+                if USEAPI:
                     c.position.move_towards_ip(self._target_position, c.speed * self._delta_time)
                 else:
                     max_distance = c.speed * self._delta_time
